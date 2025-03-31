@@ -4,7 +4,7 @@ module RailsCharts
 
     refine ::Array do
       def deep_merge(other)
-        map{|e| e.merge!(other) } 
+        map.with_index {|e, i| e.merge!(other[i]) } 
       end
     end
 

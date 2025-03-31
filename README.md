@@ -3,7 +3,6 @@
 [![RailsJazz](https://github.com/igorkasyanchuk/rails_time_travel/blob/main/docs/my_other.svg?raw=true)](https://www.railsjazz.com)
 [![Listed on OpenSource-Heroes.com](https://opensource-heroes.com/badge-v1.svg)](https://opensource-heroes.com/r/railsjazz/rails_charts)
 
-
 ![Charts](docs/all.jpg)
 
 One more gem to build nice charts for your Ruby on Rails application.
@@ -32,7 +31,6 @@ In most cases with one line of code you can have a nice chart. The idea of this 
 
 This implementation have more options and similar "interface" for building charts.
 
-
 ## Installation
 
 Add gem to your application's Gemfile:
@@ -42,6 +40,7 @@ gem "rails_charts"
 ```
 
 Then execute:
+
 ```bash
 $ ./bin/bundle install
 ```
@@ -56,78 +55,82 @@ or do it manualy
 
 ### Sprockets
 
-1) add eCharts in main JS bundle, e.g. `app/assets/javascripts/application.js`
+1. add eCharts in main JS bundle, e.g. `app/assets/javascripts/application.js`
 
 ```javascript
 //= require echarts.min.js
 //= require echarts/theme/dark.js
 ```
 
-3) add your first chart e.g.
+3. add your first chart e.g.
+
 ```ruby
 <%= line_chart User.group(:age).count %>
 ```
 
-4) customize charts if needed. See available options or [official documentation](https://echarts.apache.org/examples/en/index.html).
-
+4. customize charts if needed. See available options or [official documentation](https://echarts.apache.org/examples/en/index.html).
 
 ### Webpack / esbuild
 
-1) Run:
+1. Run:
 
 ```bash
 yarn add echarts
 ```
 
 #### For Rails 7
-2) In `app/javascript/application.js` add this:
+
+2. In `app/javascript/application.js` add this:
 
 ```javascript
-import * as echarts from 'echarts';
-import 'echarts/theme/dark';
+import * as echarts from "echarts";
+import "echarts/theme/dark";
 
 window.echarts = echarts;
 ```
 
 #### For Rails 6
-2) In `app/javascript/packs/application.js` add this:
+
+2. In `app/javascript/packs/application.js` add this:
 
 ```javascript
-import * as echarts from 'echarts';
-import 'echarts/theme/dark';
+import * as echarts from "echarts";
+import "echarts/theme/dark";
 
 window.echarts = echarts;
 ```
 
-3) add your first chart e.g.
+3. add your first chart e.g.
+
 ```ruby
 <%= line_chart User.group(:age).count %>
 ```
 
-4) customize charts if needed. See available options or [official documentation](https://echarts.apache.org/examples/en/index.html).
+4. customize charts if needed. See available options or [official documentation](https://echarts.apache.org/examples/en/index.html).
 
 ### Importmaps
 
-1) change `config/importmap.rb`
+1. change `config/importmap.rb`
 
 ```ruby
 pin "echarts", to: "echarts.min.js"
 pin "echarts/theme/dark", to: "echarts/theme/dark.js"
 ```
 
-2) add eCharts in main JS
+2. add eCharts in main JS
 
 ```javascript
-import "echarts"
-import "echarts/theme/dark"
+import "echarts";
+import "echarts/theme/dark";
 ```
 
-3) add your first chart e.g.
+3. add your first chart e.g.
+
 ```ruby
 <%= line_chart User.group(:age).count %>
 ```
 
-4) customize charts if needed. See available options or [official documentation](https://echarts.apache.org/examples/en/index.html).
+4. customize charts if needed. See available options or [official documentation](https://echarts.apache.org/examples/en/index.html).
 
 ## Options
 
@@ -195,6 +198,34 @@ Every chart has a built in default configuration for tooltips, or other options 
     },
   }
 %>
+```
+
+You can also use additional series options like `z` (for controlling the stacking order) and `lineStyle` (for customizing the line appearance):
+
+```ruby
+<%= line_chart User.group(:age).count, class: 'box',
+  z: 2,
+  lineStyle: {
+    width: 3,
+    type: 'dashed',
+    color: '#5470C6'
+  },
+  options: {
+    title: {
+      text: "People count by age",
+      left: 'center'
+    }
+  }
+%>
+```
+
+For multiple series, you can apply these options to individual series:
+
+```ruby
+<%= line_chart [
+  {name: 'Users', data: User.group(:age).count, z: 3, lineStyle: {width: 4, color: '#91CC75'}},
+  {name: 'Posts', data: Post.group(:category).count, z: 2, lineStyle: {width: 2, type: 'dotted'}}
+] %>
 ```
 
 ### Bar Chart

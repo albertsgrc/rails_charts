@@ -36,14 +36,14 @@ module RailsCharts
         {
           data: is_a?(AreaChart) || is_a?(ScatterChart) ? data : data.map(&:last),
           type: type,
-        }
+        }.compact
       when Hash
         data.map do |e| 
           {
             data: e[:data].is_a?(Hash) ? e[:data].values : e[:data],
             type: type,
-            name: e[:name]
-          }
+            name: e[:name],
+          }.compact
         end
       end
     end

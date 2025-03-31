@@ -9,10 +9,6 @@ module RailsCharts
         xAxis: {
           boundaryGap: false
         },
-        series: {
-          areaStyle: {},
-          stack: 'Total'
-        },
         toolbox: {
           feature: {
             saveAsImage: {}
